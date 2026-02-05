@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Label Produk</title>
+
+<style>
+  body {
+    font-family: Arial;
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nama {
+    font-size: 18px;
+    font-weight: bold;
+    width: 200px;
+  }
+  .qr-barcode {
+    text-align: center;
+  }
+  img {
+    display: block;
+    margin: auto;
+  }
+</style>
+</head>
+
+<body onload="window.print()">
+
+<div class="container">
+  <div class="nama" id="nama"></div>
+
+  <div class="qr-barcode">
+    <img id="qr" width="200">
+    <img id="barcode" width="200">
+  </div>
+</div>
+
+<script>
+  const p = new URLSearchParams(window.location.search);
+
+  const nama = p.get("nama");
+  const kode = p.get("kode");
+
+  document.getElementById("nama").innerText = nama;
+
+  document.getElementById("qr").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(kode);
+
+  document.getElementById("barcode").src =
+    "https://barcode.tec-it.com/barcode.ashx?data=" +
+    encodeURIComponent(kode) +
+    "&code=Code128";
+</script>
+
+</body>
+</html>
