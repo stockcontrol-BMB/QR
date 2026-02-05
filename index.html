@@ -5,19 +5,51 @@
 <title>Label Produk</title>
 
 <style>
-  body { font-family: Arial; }
-  .container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+/* UKURAN CETAK */
+@media print {
+  @page {
+    size: 5cm 3cm;
+    margin: 0;
   }
-  .nama {
-    font-size: 18px;
-    font-weight: bold;
-    width: 200px;
+  body {
+    margin: 0;
   }
-  .qr-barcode { text-align: center; }
-  img { display: block; margin: auto; }
+}
+
+/* LAYOUT */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 5cm;
+  height: 3cm;
+}
+
+.nama {
+  width: 2.5cm;
+  font-size: 8pt;
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+.qr-barcode {
+  width: 2.5cm;
+  text-align: center;
+}
+
+.qr-barcode img.qr {
+  width: 1.8cm;
+  height: 1.8cm;
+}
+
+.qr-barcode img.barcode {
+  width: 2.2cm;
+  height: 0.7cm;
+  margin-top: 2px;
+}
 </style>
 </head>
 
@@ -25,9 +57,10 @@
 
 <div class="container">
   <div class="nama" id="nama"></div>
+
   <div class="qr-barcode">
-    <img id="qr" width="200">
-    <img id="barcode" width="200">
+    <img id="qr" class="qr">
+    <img id="barcode" class="barcode">
   </div>
 </div>
 
@@ -39,13 +72,13 @@
   document.getElementById("nama").innerText = nama;
 
   document.getElementById("qr").src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=" +
     encodeURIComponent(kode);
 
   document.getElementById("barcode").src =
     "https://barcode.tec-it.com/barcode.ashx?data=" +
     encodeURIComponent(kode) +
-    "&code=Code128";
+    "&code=Code128&dpi=200";
 </script>
 
 </body>
