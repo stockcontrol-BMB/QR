@@ -1,80 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Label Produk</title>
+<meta charset="utf-8">
+
+<title>Label QR</title>
 
 <style>
-/* ====== SETTING CETAK ====== */
-@media print {
-  @page {
-    size: 4.5cm 2cm;
-    margin: 0;
-  }
-  body {
-    margin: 0;
-  }
+/* KUNCI UKURAN KERTAS */
+@page {
+  size: 45mm 20mm;
+  margin: 0;
 }
 
-/* ====== LAYOUT ====== */
-body {
+/* RESET */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* LABEL */
+.label {
+  width: 45mm;
+  height: 20mm;
+  border: 1px solid #000;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  padding: 1mm;
   font-family: Arial, sans-serif;
 }
 
-.label {
-  width: 4.5cm;
-  height: 2cm;
-  border: 1px solid black;
-  box-sizing: border-box;
-  padding: 2mm;
-  display: flex;
-}
-
-/* KIRI: NAMA PRODUK */
-.nama {
-  width: 2.3cm;
-  font-size: 6.5pt;
-  font-weight: bold;
+/* NAMA PRODUK */
+.name {
+  flex: 1;
+  font-size: 7px;
   line-height: 1.1;
-  overflow: hidden;
-  border-right: 1px solid black;
-  padding-right: 1mm;
+  word-break: break-word;
 }
 
-/* KANAN: QR SAJA */
-.kode {
-  width: 2.2cm;
-  text-align: center;
-  padding-left: 1mm;
-}
-
-.qr {
-  width: 1.6cm;
-  height: 1.6cm;
+/* QR */
+.qr img {
+  width: 14mm;
+  height: 14mm;
 }
 </style>
 </head>
 
-<body onload="window.print()">
+<body>
 
 <div class="label">
-  <div class="nama" id="nama"></div>
+  <div class="name" id="name">NAMA PRODUK</div>
 
-  <div class="kode">
-    <img id="qr" class="qr">
+  <div class="qr">
+    <img id="qrimg"
+      src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PRODUCTCODE">
   </div>
 </div>
 
 <script>
-  const p = new URLSearchParams(window.location.search);
-  const nama = p.get("nama");
-  const kode = p.get("kode");
+/* AMBIL PARAMETER DARI URL */
+const p = new URLSearchParams(window.location.search);
 
-  document.getElementById("nama").innerText = nama;
+if (p.get("name")) {
+  document.getElementById("name").innerText = p.get("name");
+}
 
-  document.getElementById("qr").src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=5&data=" +
-    encodeURIComponent(kode);
+if (p.get("code")) {
+  document.getElementById("qrimg").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(p.get("code"));
+}
+
+/* AUTO PRINT */
+window.onload = () => {
+  window.print();
+};
 </script>
 
 </body>
