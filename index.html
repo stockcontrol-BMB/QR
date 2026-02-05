@@ -1,84 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Label Produk</title>
+<meta charset="utf-8">
+<title>Label QR + Barcode</title>
 
 <style>
-/* UKURAN CETAK */
-@media print {
-  @page {
-    size: 5cm 3cm;
-    margin: 0;
-  }
-  body {
-    margin: 0;
-  }
+@page {
+  size: 45mm 20mm;
+  margin: 0;
 }
 
-/* LAYOUT */
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.label {
+  width: 45mm;
+  height: 20mm;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  display: flex;
   font-family: Arial, sans-serif;
 }
 
-.container {
+/* KIRI */
+.left {
+  width: 18mm;
+  border-right: 1px solid #000; /* BORDER TENGAH */
   display: flex;
+  flex-direction: column;
   align-items: center;
-  width: 5cm;
-  height: 3cm;
+  justify-content: center;
+  padding: 1mm;
+  box-sizing: border-box;
 }
 
-.nama {
-  width: 2.5cm;
-  font-size: 8pt;
-  font-weight: bold;
-  line-height: 1.1;
+.qr img {
+  width: 12mm;
+  height: 12mm;
 }
 
-.qr-barcode {
-  width: 2.5cm;
-  text-align: center;
+.barcode img {
+  width: 16mm;
+  height: 5mm;
+  margin-top: 1mm;
 }
 
-.qr-barcode img.qr {
-  width: 1.8cm;
-  height: 1.8cm;
-}
-
-.qr-barcode img.barcode {
-  width: 2.2cm;
-  height: 0.7cm;
-  margin-top: 2px;
+/* KANAN */
+.right {
+  flex: 1;
+  padding: 1mm;
+  box-sizing: border-box;
+  font-size: 7px;
+  line-height: 1.2;
+  word-break: break-word;
 }
 </style>
 </head>
 
-<body onload="window.print()">
+<body>
 
-<div class="container">
-  <div class="nama" id="nama"></div>
+<div class="label">
+  <div class="left">
+    <div class="qr">
+      <img id="qrimg"
+        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PRODUCTCODE">
+    </div>
 
-  <div class="qr-barcode">
-    <img id="qr" class="qr">
-    <img id="barcode" class="barcode">
+    <div class="barcode">
+      <img id="barimg"
+        src="https://barcode.tec-it.com/barcode.ashx?data=PRODUCTCODE&code=Code128&translate-esc=true">
+    </div>
+  </div>
+
+  <div class="right" id="name">
+    NAMA PRODUK
   </div>
 </div>
 
 <script>
-  const p = new URLSearchParams(window.location.search);
-  const nama = p.get("nama");
-  const kode = p.get("kode");
+const p = new URLSearchParams(window.location.search);
 
-  document.getElementById("nama").innerText = nama;
+if (p.get("code")) {
+  const code = encodeURIComponent(p.get("code"));
+  document.getElementById("qrimg").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + code;
+  document.getElementById("barimg").src =
+    "https://barcode.tec-it.com/barcode.ashx?data=" + code + "&code=Code128";
+}
 
-  document.getElementById("qr").src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=" +
-    encodeURIComponent(kode);
+if (p.get("name")) {
+  document.getElementById("name").innerText = p.get("name");
+}
 
-  document.getElementById("barcode").src =
-    "https://barcode.tec-it.com/barcode.ashx?data=" +
-    encodeURIComponent(kode) +
-    "&code=Code128&dpi=200";
+window.onload = () => window.print();
 </script>
 
 </body>
