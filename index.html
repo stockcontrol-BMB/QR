@@ -6,7 +6,7 @@
 
 <style>
 @page {
-  size: 45mm 20mm;   /* 4.5 cm x 2 cm */
+  size: 45mm 18mm;   /* DIKECILKAN SUPAYA CETAK ≈ 20mm */
   margin: 0;
 }
 
@@ -15,25 +15,25 @@ html, body {
   padding: 0;
 }
 
-/* LABEL UTAMA */
+/* LABEL */
 .label {
   width: 45mm;
-  height: 20mm;
+  height: 18mm;
   box-sizing: border-box;
 
-  outline: 0.4mm solid #000;      /* BORDER LUAR */
-  outline-offset: -0.4mm;         /* TIDAK MAKAN TINGGI */
+  outline: 0.4mm solid #000;
+  outline-offset: -0.4mm;
+  padding: 0.4mm;
 
-  padding: 0.4mm;                 /* KOMPENSASI BORDER */
   display: flex;
   font-family: Arial, sans-serif;
 }
 
-/* BAGIAN KIRI */
+/* KIRI */
 .left {
-  width: 18mm;
+  width: 17mm;
   position: relative;
-  padding: 0.8mm;
+  padding: 0.6mm;
   box-sizing: border-box;
 
   display: flex;
@@ -55,24 +55,24 @@ html, body {
 
 /* QR */
 .qr img {
-  width: 12mm;
-  height: 12mm;
+  width: 11mm;
+  height: 11mm;
 }
 
 /* BARCODE */
 .barcode img {
-  width: 16mm;
-  height: 5mm;
-  margin-top: 0.8mm;
+  width: 15mm;
+  height: 4mm;
+  margin-top: 0.6mm;
 }
 
-/* BAGIAN KANAN */
+/* KANAN */
 .right {
   flex: 1;
-  padding: 0.8mm;
+  padding: 0.6mm;
   box-sizing: border-box;
-  font-size: 7px;
-  line-height: 1.15;
+  font-size: 6.5px;
+  line-height: 1.1;
   word-break: break-word;
 }
 </style>
@@ -101,12 +101,10 @@ html, body {
 <script>
 const p = new URLSearchParams(window.location.search);
 
-/* NAMA PRODUK */
 if (p.get("nama")) {
   document.getElementById("name").innerText = p.get("nama");
 }
 
-/* PRODUCT CODE */
 if (p.get("kode")) {
   const kode = encodeURIComponent(p.get("kode"));
 
@@ -117,7 +115,6 @@ if (p.get("kode")) {
     "https://barcode.tec-it.com/barcode.ashx?data=" + kode + "&code=Code128";
 }
 
-/* AUTO PRINT */
 window.onload = () => window.print();
 </script>
 
