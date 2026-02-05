@@ -6,7 +6,7 @@
 
 <style>
 @page {
-  size: 45mm 20mm;
+  size: 45mm 20mm;   /* 4.5 cm x 2 cm */
   margin: 0;
 }
 
@@ -21,9 +21,10 @@ html, body {
   height: 20mm;
   box-sizing: border-box;
 
-  outline: 0.6mm solid #000;      /* BORDER LUAR AMAN PRINT */
-  outline-offset: -0.6mm;
+  outline: 0.4mm solid #000;      /* BORDER LUAR */
+  outline-offset: -0.4mm;         /* TIDAK MAKAN TINGGI */
 
+  padding: 0.4mm;                 /* KOMPENSASI BORDER */
   display: flex;
   font-family: Arial, sans-serif;
 }
@@ -32,7 +33,7 @@ html, body {
 .left {
   width: 18mm;
   position: relative;
-  padding: 1mm;
+  padding: 0.8mm;
   box-sizing: border-box;
 
   display: flex;
@@ -47,7 +48,7 @@ html, body {
   position: absolute;
   right: 0;
   top: 0;
-  width: 0.6mm;
+  width: 0.4mm;
   height: 100%;
   background: #000;
 }
@@ -62,16 +63,16 @@ html, body {
 .barcode img {
   width: 16mm;
   height: 5mm;
-  margin-top: 1mm;
+  margin-top: 0.8mm;
 }
 
 /* BAGIAN KANAN */
 .right {
   flex: 1;
-  padding: 1mm;
+  padding: 0.8mm;
   box-sizing: border-box;
   font-size: 7px;
-  line-height: 1.2;
+  line-height: 1.15;
   word-break: break-word;
 }
 </style>
@@ -117,9 +118,7 @@ if (p.get("kode")) {
 }
 
 /* AUTO PRINT */
-window.onload = () => {
-  window.print();
-};
+window.onload = () => window.print();
 </script>
 
 </body>
