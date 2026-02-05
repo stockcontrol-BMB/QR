@@ -15,39 +15,57 @@ html, body {
   padding: 0;
 }
 
+/* LABEL UTAMA */
 .label {
   width: 45mm;
   height: 20mm;
-  border: 1px solid #000;
   box-sizing: border-box;
+
+  outline: 0.6mm solid #000;      /* BORDER LUAR AMAN PRINT */
+  outline-offset: -0.6mm;
+
   display: flex;
   font-family: Arial, sans-serif;
 }
 
-/* KIRI */
+/* BAGIAN KIRI */
 .left {
   width: 18mm;
-  border-right: 1px solid #000; /* BORDER TENGAH */
+  position: relative;
+  padding: 1mm;
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1mm;
-  box-sizing: border-box;
 }
 
+/* GARIS TENGAH */
+.left::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 0.6mm;
+  height: 100%;
+  background: #000;
+}
+
+/* QR */
 .qr img {
   width: 12mm;
   height: 12mm;
 }
 
+/* BARCODE */
 .barcode img {
   width: 16mm;
   height: 5mm;
   margin-top: 1mm;
 }
 
-/* KANAN */
+/* BAGIAN KANAN */
 .right {
   flex: 1;
   padding: 1mm;
@@ -65,12 +83,12 @@ html, body {
   <div class="left">
     <div class="qr">
       <img id="qrimg"
-        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PRODUCTCODE">
+        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=DEFAULT">
     </div>
 
     <div class="barcode">
       <img id="barimg"
-        src="https://barcode.tec-it.com/barcode.ashx?data=PRODUCTCODE&code=Code128&translate-esc=true">
+        src="https://barcode.tec-it.com/barcode.ashx?data=DEFAULT&code=Code128">
     </div>
   </div>
 
@@ -82,19 +100,26 @@ html, body {
 <script>
 const p = new URLSearchParams(window.location.search);
 
-if (p.get("code")) {
-  const code = encodeURIComponent(p.get("code"));
+/* NAMA PRODUK */
+if (p.get("nama")) {
+  document.getElementById("name").innerText = p.get("nama");
+}
+
+/* PRODUCT CODE */
+if (p.get("kode")) {
+  const kode = encodeURIComponent(p.get("kode"));
+
   document.getElementById("qrimg").src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + code;
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + kode;
+
   document.getElementById("barimg").src =
-    "https://barcode.tec-it.com/barcode.ashx?data=" + code + "&code=Code128";
+    "https://barcode.tec-it.com/barcode.ashx?data=" + kode + "&code=Code128";
 }
 
-if (p.get("name")) {
-  document.getElementById("name").innerText = p.get("name");
-}
-
-window.onload = () => window.print();
+/* AUTO PRINT */
+window.onload = () => {
+  window.print();
+};
 </script>
 
 </body>
